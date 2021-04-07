@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public class CharacterControl : MonoBehaviour
 {
     [SerializeField]
@@ -13,12 +14,13 @@ public class CharacterControl : MonoBehaviour
     private CharacterController controller;
     [SerializeField]
     private float speed;
+    private int damage;
     private Collider boxerCollider;
     Animation anim;
-    float animSpeed = 1f;
     KeyCode k;
     Dictionary<KeyCode, Punch> punches;
     bool isPunching = false;
+    bool damageApplied = false;
 
     void Start()
     {
@@ -37,7 +39,7 @@ public class CharacterControl : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime);
         foreach(KeyCode key in punches.Keys)
         {
-            if (Input.GetKeyDown(key) && !anim.isPlaying)
+            if (Input.GetKeyDown(key) && !isPunching)
             {
                 MakePunch(key);
                 k = key;
@@ -47,12 +49,10 @@ public class CharacterControl : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if (isPunching)
+        if (isPunching && !damageApplied)
         {
             Action.ApplyDamage(punches[k], collision);
-            isPunching = false;
-            anim[punches[k].anim.name].speed = -animSpeed;
-            anim.Play(punches[k].anim.name);
+            damageApplied = true;
         }
     }
 
@@ -61,6 +61,7 @@ public class CharacterControl : MonoBehaviour
         if (message.Equals("AnimationEnded")) 
         { 
             isPunching = false;
+            damageApplied = false;
         }
     }
     public void MakePunch(KeyCode key)
@@ -70,9 +71,8 @@ public class CharacterControl : MonoBehaviour
         {
             characteristics.Stamina = 0;
             punches[key].damage = punches[key].maxDamage / 2;
-            animSpeed = 0.5f;
+            anim[punches[key].anim.name].speed = 0.5f;
         }
-        anim[punches[key].anim.name].speed = animSpeed;
         anim.Play(punches[key].anim.name);
         isPunching = true;
     }
