@@ -27,7 +27,7 @@ public class CharacterAction : MonoBehaviour
     public void ApplyDamage(Punch punch, Collider collision)
     {
         Characteristics enemy = collision.gameObject.GetComponentInParent<Characteristics>();
-        if (punch.type.ToString().Equals(enemy.blockType.ToString()))
+        if ((int)punch.type == (int)enemy.blockType)
         {
             if (enemy.Block >= punch.damage) enemy.Block -= punch.damage;
             else
