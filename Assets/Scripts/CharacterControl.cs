@@ -17,11 +17,10 @@ public class CharacterControl : MonoBehaviour
     private int damage;
     private Collider boxerCollider;
     Animation anim;
-    Animator animat;
     KeyCode k;
     Dictionary<KeyCode, Punch> punches;
-    bool isPunching;
-    bool damageApplied;
+    bool isPunching = false;
+    bool damageApplied = false;
 
     void Start()
     {
@@ -30,8 +29,6 @@ public class CharacterControl : MonoBehaviour
         punches = new Dictionary<KeyCode, Punch>();
         punches.Add(KeyCode.Mouse0, new Punch(1000, 1000, anim.GetClip("LeftStraight"), PunchType.Upper));
         punches.Add(KeyCode.Mouse1, new Punch(2000, 2000, anim.GetClip("RightStraight"), PunchType.Lower, 2000));
-        isPunching = false;
-        damageApplied = false;
     }
 
     void Update()
@@ -42,7 +39,7 @@ public class CharacterControl : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime);
         foreach(KeyCode key in punches.Keys)
         {
-            if (Input.GetKeyDown(key))
+            if (Input.GetKeyDown(key) && !isPunching)
             {
                 MakePunch(key);
                 k = key;
@@ -76,10 +73,7 @@ public class CharacterControl : MonoBehaviour
             punches[key].damage = punches[key].maxDamage / 2;
             anim[punches[key].anim.name].speed = 0.5f;
         }
-        if (!anim.IsPlaying(punches[key].anim.name))
-        {
-            anim.Play(punches[key].anim.name);
-            isPunching = true;
-        }
+        anim.Play(punches[key].anim.name);
+        isPunching = true;
     }
 }
