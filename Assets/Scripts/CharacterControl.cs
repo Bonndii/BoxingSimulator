@@ -20,8 +20,8 @@ public class CharacterControl : MonoBehaviour
     Animator animat;
     KeyCode k;
     Dictionary<KeyCode, Punch> punches;
-    bool isPunching;
-    bool damageApplied;
+    bool isPunching = false;
+    bool damageApplied = false;
 
     void Start()
     {
@@ -30,8 +30,6 @@ public class CharacterControl : MonoBehaviour
         punches = new Dictionary<KeyCode, Punch>();
         punches.Add(KeyCode.Mouse0, new Punch(1000, 1000, anim.GetClip("LeftStraight"), PunchType.Upper));
         punches.Add(KeyCode.Mouse1, new Punch(2000, 2000, anim.GetClip("RightStraight"), PunchType.Lower, 2000));
-        isPunching = false;
-        damageApplied = false;
     }
 
     void Update()
@@ -76,7 +74,7 @@ public class CharacterControl : MonoBehaviour
             punches[key].damage = punches[key].maxDamage / 2;
             anim[punches[key].anim.name].speed = 0.5f;
         }
-        if (!anim.IsPlaying(punches[key].anim.name))
+        if (!anim.isPlaying)
         {
             anim.Play(punches[key].anim.name);
             isPunching = true;
