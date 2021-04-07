@@ -1,109 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public class Punch
+{
+    public int maxDamage;
+    public int damage;
+    public int staminaDamage;
+    public int enemyStaminaDamage;
+    public AnimationClip anim;
+    public PunchType type;
 
+    public Punch(int maxDmg, int stDmg, AnimationClip an, PunchType t, int enStDmg = 0)
+    {
+        maxDamage = maxDmg;
+        damage = maxDmg;
+        staminaDamage = stDmg;
+        enemyStaminaDamage = enStDmg;
+        anim = an;
+        type = t;
+    }
+}
 public class CharacterAction : MonoBehaviour
 {
     [SerializeField]
     private Characteristics characteristics;
-    public void UpperEnemyHit(Collider collision, int damagePoints)
+    public void ApplyDamage(Punch punch, Collider collision)
     {
-        Characteristics newP = collision.gameObject.GetComponentInParent<Characteristics>();
-        if (characteristics.currentStatus == CurrentStatus.UpperAttack && newP.currentStatus != CurrentStatus.UpperBlock)
+        Characteristics enemy = collision.gameObject.GetComponentInParent<Characteristics>();
+        if (punch.type.ToString().Equals(enemy.blockType.ToString()))
         {
-            if (newP.Health - damagePoints > 0)
-            {
-                newP.Health -= damagePoints;
-            }
+            if (enemy.Block >= punch.damage) enemy.Block -= punch.damage;
             else
             {
-                newP.Health = 0;
+                enemy.Health -= punch.damage - enemy.Block;
+                enemy.Block = 0;
             }
-        }
-
-        else if (characteristics.currentStatus == CurrentStatus.UpperAttack && newP.currentStatus == CurrentStatus.UpperBlock)
-        {
-            if (newP.Block - damagePoints >= 0)
-            {
-                newP.Block -= damagePoints;
-            }
-            else if (newP.Health - damagePoints > 0)
-            {
-                newP.Block = 0;
-                newP.Health -= damagePoints;
-            }
-            else
-            {
-                newP.Block = 0;
-                newP.Health = 0;
-            }   
-        }
-    }
-
-    public void LowerEnemyHit(Collider collision, int damagePoints, int staminaPoints)
-    {
-        Characteristics newP = collision.gameObject.GetComponentInParent<Characteristics>();
-        if (characteristics.currentStatus == CurrentStatus.LowerAttack && newP.currentStatus != CurrentStatus.LowerBlock)
-        {
-            if (newP.Health - damagePoints > 0 && newP.Stamina - staminaPoints > 0)
-            {
-                newP.Health -= damagePoints;
-                newP.Stamina -= staminaPoints;
-            } 
-            else if (newP.Health - damagePoints > 0 && newP.Stamina - staminaPoints < 0)
-            {
-                newP.Health -= damagePoints;
-                newP.Stamina = 0;
-            }
-            else
-            {
-                newP.Health = 0;
-                newP.Stamina = 0;
-            }
-        }
-
-        else if (characteristics.currentStatus == CurrentStatus.LowerAttack && newP.currentStatus == CurrentStatus.LowerBlock)
-        {
-            if (newP.Block - damagePoints >= 0)
-            {
-                newP.Block -= damagePoints;
-            }
-            else if (newP.Health - damagePoints > 0 && newP.Stamina - staminaPoints > 0)
-            {
-                newP.Block = 0;
-                newP.Health -= damagePoints;
-                newP.Stamina -= staminaPoints;
-            }
-            else if (newP.Health - damagePoints > 0 && newP.Stamina - staminaPoints < 0)
-            {
-                newP.Block = 0;
-                newP.Health -= damagePoints;
-                newP.Stamina = 0;
-            }
-            else
-            {
-                newP.Block = 0;
-                newP.Health = 0;
-                newP.Stamina = 0;
-            }
-        }
-    }
-
-    public void EnergyHit(int energyPoints)
-    {
-        if(characteristics.Stamina - energyPoints > 0)
-        {
-            characteristics.Stamina -= energyPoints;
-            characteristics.LeftStraightDamage = characteristics.LeftStraightMaxDamage;
-            characteristics.RightStraightDamage = characteristics.RightStraightMaxDamage;
         }
         else
         {
-            characteristics.LeftStraightDamage = characteristics.LeftStraightMaxDamage / 4;
-            characteristics.RightStraightDamage = characteristics.RightStraightMaxDamage / 4;
-            characteristics.Stamina = 0;
-        }
-        
+            enemy.Health -= punch.damage;
+            if (punch.type == PunchType.Lower)
+            {
+                if(enemy.Stamina >= punch.enemyStaminaDamage) enemy.Stamina -= punch.enemyStaminaDamage;
+                else enemy.Stamina = 0;
+            }
+        }        
     }
 }
     

@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CurrentStatus
+public enum PunchType
 {
-    UpperAttack, UpperBlock, LowerAttack, LowerBlock, Move, Nothing
+    None, Upper, Lower
+}
+public enum BlockType
+{
+    None, Upper, Lower
 }
 
 public class Characteristics : LoaderController<Characteristics>
@@ -23,19 +27,7 @@ public class Characteristics : LoaderController<Characteristics>
     [SerializeField]
     private int maxStamina;
     [SerializeField]
-    private int leftStraightDamage;
-    [SerializeField]
-    private int rightStraightDamage;
-    [SerializeField]
-    private int leftStraightEnergyDamage;
-    [SerializeField]
-    private int rightStraightEnergyDamage;
-    [SerializeField]
-    private int leftStraightMaxDamage;
-    [SerializeField]
-    private int rightStraightMaxDamage;
-    [SerializeField]
-    public CurrentStatus currentStatus;
+    public BlockType blockType;
 
     public int Health
     {
@@ -106,76 +98,6 @@ public class Characteristics : LoaderController<Characteristics>
         set
         {
             maxStamina = value;
-        }
-    }
-    public int LeftStraightDamage
-    {
-        get
-        {
-            return leftStraightDamage;
-        }
-        set
-        {
-            leftStraightDamage = value;
-        }
-    }
-
-    public int RightStraightDamage
-    {
-        get
-        {
-            return rightStraightDamage;
-        }
-        set
-        {
-            rightStraightDamage = value;
-        }
-    }
-
-    public int LeftStraightEnergyDamage
-    {
-        get
-        {
-            return leftStraightEnergyDamage;
-        }
-        set
-        {
-            leftStraightEnergyDamage = value;
-        }
-    }
-
-    public int RightStraightEnergyDamage
-    {
-        get
-        {
-            return rightStraightEnergyDamage;
-        }
-        set
-        {
-            rightStraightEnergyDamage = value;
-        }
-    }
-    public int LeftStraightMaxDamage
-    {
-        get
-        {
-            return leftStraightMaxDamage;
-        }
-        set
-        {
-            leftStraightMaxDamage = value;
-        }
-    }
-
-    public int RightStraightMaxDamage
-    {
-        get
-        {
-            return rightStraightMaxDamage;
-        }
-        set
-        {
-            rightStraightMaxDamage = value;
         }
     }
 }

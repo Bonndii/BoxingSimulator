@@ -17,11 +17,21 @@ public class CharacterControl : MonoBehaviour
     private int damage;
     private Collider boxerCollider;
     Animation anim;
+    Animator animat;
+    KeyCode k;
+    Dictionary<KeyCode, Punch> punches;
+    bool isPunching;
+    bool damageApplied;
 
     void Start()
     {
         boxerCollider = GetComponent<Collider>();
         anim = GetComponent<Animation>();
+        punches = new Dictionary<KeyCode, Punch>();
+        punches.Add(KeyCode.Mouse0, new Punch(1000, 1000, anim.GetClip("LeftStraight"), PunchType.Upper));
+        punches.Add(KeyCode.Mouse1, new Punch(2000, 2000, anim.GetClip("RightStraight"), PunchType.Lower, 2000));
+        isPunching = false;
+        damageApplied = false;
     }
 
     void Update()
@@ -30,38 +40,46 @@ public class CharacterControl : MonoBehaviour
         float z = Input.GetAxis("Vertical");
         Vector3 move = transform.right * (-x) + transform.forward * (-z);
         controller.Move(move * speed * Time.deltaTime);
-        SetCurrentStatus();
+        foreach(KeyCode key in punches.Keys)
+        {
+            if (Input.GetKeyDown(key))
+            {
+                MakePunch(key);
+                k = key;
+            }
+        }
     }
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "BoxerHead")
+        if (isPunching && !damageApplied)
         {
-            Action.UpperEnemyHit(collision ,damage);
-            characteristics.currentStatus = CurrentStatus.Nothing;
-        }
-        else if (collision.gameObject.tag == "BoxerChest")
-        {
-            Action.LowerEnemyHit(collision, damage, damage);
-            characteristics.currentStatus = CurrentStatus.Nothing;
+            Action.ApplyDamage(punches[k], collision);
+            damageApplied = true;
         }
     }
 
-    public void SetCurrentStatus()
+    public void AnimationEnd(string message)
     {
-        if (Input.GetMouseButtonDown(0) && anim.isPlaying != true)
-        {
-            characteristics.currentStatus = CurrentStatus.UpperAttack;
-            damage = characteristics.LeftStraightDamage;
-            Action.EnergyHit(characteristics.LeftStraightEnergyDamage);
-            anim.Play("LeftStraight");
+        if (message.Equals("AnimationEnded")) 
+        { 
+            isPunching = false;
+            damageApplied = false;
         }
-        else if (Input.GetMouseButtonDown(1) && anim.isPlaying != true)
+    }
+    public void MakePunch(KeyCode key)
+    {
+        if (characteristics.Stamina >= punches[key].staminaDamage) characteristics.Stamina -= punches[key].staminaDamage;
+        else
         {
-            characteristics.currentStatus = CurrentStatus.LowerAttack;
-            damage = characteristics.RightStraightDamage;
-            Action.EnergyHit(characteristics.RightStraightEnergyDamage);
-            anim.Play("RightStraight");
+            characteristics.Stamina = 0;
+            punches[key].damage = punches[key].maxDamage / 2;
+            anim[punches[key].anim.name].speed = 0.5f;
+        }
+        if (!anim.IsPlaying(punches[key].anim.name))
+        {
+            anim.Play(punches[key].anim.name);
+            isPunching = true;
         }
     }
 }

@@ -219,6 +219,36 @@ Transform:
   m_Father: {fileID: 1413602690}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &208636537 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4620282718447106903, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
+  m_PrefabInstance: {fileID: 1456264540}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &208636541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208636537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6dbf4f617739e42b3422920901f102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &208636542
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208636537}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.0000002
+  m_Center: {x: 0.00036621094, y: 0, z: -0.0000038146973}
 --- !u!1 &271851387
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,30 +437,10 @@ MonoBehaviour:
   maxHealth: 10000
   block: 5000
   maxBlock: 5000
-  stamina: 1000
-  maxStamina: 1000
-  leftStraightDamage: 2000
-  rightStraightDamage: 4000
-  leftStraightEnergyDamage: 200
-  rightStraightEnergyDamage: 200
-  leftStraightMaxDamage: 2000
-  rightStraightMaxDamage: 4000
-  currentStatus: 0
+  stamina: 10000
+  maxStamina: 10000
+  blockType: 0
 --- !u!136 &429536879
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429536875}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 1.76
-  m_Height: 10.53
-  m_Direction: 1
-  m_Center: {x: 1.59, y: 0, z: 0}
---- !u!136 &429536880
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -440,10 +450,22 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.15
-  m_Height: 9.17
+  m_Radius: 1.76
+  m_Height: 10.53
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 1.59, y: 0, z: 0}
+--- !u!114 &429536880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429536875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a39d07914548c16468de365c1b0177ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &429536881
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -838,6 +860,36 @@ Transform:
   m_Father: {fileID: 1413602690}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &476676789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3564783574603935192, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
+  m_PrefabInstance: {fileID: 1456264540}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &476676793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476676789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a39d07914548c16468de365c1b0177ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &476676794
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476676789}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 3.4999995, z: 3}
+  m_Center: {x: 0.00036621094, y: 0.0000014305115, z: -0.0000038146973}
 --- !u!1 &480880448
 GameObject:
   m_ObjectHideFlags: 0
@@ -2278,17 +2330,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100000
   maxHealth: 10000
-  block: 5000
+  block: 5500
   maxBlock: 5000
-  stamina: 1000
+  stamina: 10000
   maxStamina: 1000
-  leftStraightDamage: 2000
-  rightStraightDamage: 4000
-  leftStraightEnergyDamage: 0
-  rightStraightEnergyDamage: 0
-  leftStraightMaxDamage: 0
-  rightStraightMaxDamage: 0
-  currentStatus: 3
+  blockType: 1
 --- !u!136 &1293704757
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2873,6 +2919,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4620282718447106903, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
+      propertyPath: m_TagString
+      value: Boxer
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
       propertyPath: m_Name
       value: EnemyBoxer
@@ -2882,6 +2932,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
+      propertyPath: m_TagString
+      value: Boxer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564783574603935192, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
       propertyPath: m_TagString
       value: Boxer
       objectReference: {fileID: 0}
@@ -3326,15 +3380,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1604.81
+      value: -1604.63
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.525674
+      value: -4.49
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.51
+      value: 23.08
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
       propertyPath: m_LocalRotation.w
