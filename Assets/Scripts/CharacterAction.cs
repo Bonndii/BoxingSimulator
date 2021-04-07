@@ -44,7 +44,7 @@ public class CharacterAction : MonoBehaviour
                 if(enemy.Stamina >= punch.enemyStaminaDamage) enemy.Stamina -= punch.enemyStaminaDamage;
                 else enemy.Stamina = 0;
             }
-        }      
+        }        
     }
 }
     
