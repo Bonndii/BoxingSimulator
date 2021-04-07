@@ -40,7 +40,7 @@ public class CharacterControl : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime);
         foreach(KeyCode key in punches.Keys)
         {
-            if (Input.GetKeyDown(key))
+            if (Input.GetKeyDown(key) && !isPunching)
             {
                 MakePunch(key);
                 k = key;
@@ -74,10 +74,7 @@ public class CharacterControl : MonoBehaviour
             punches[key].damage = punches[key].maxDamage / 2;
             anim[punches[key].anim.name].speed = 0.5f;
         }
-        if (!anim.isPlaying)
-        {
-            anim.Play(punches[key].anim.name);
-            isPunching = true;
-        }
+        anim.Play(punches[key].anim.name);
+        isPunching = true;
     }
 }
