@@ -27,7 +27,7 @@ public class CharacterAction : MonoBehaviour
     public void ApplyDamage(Punch punch, Collider collision)
     {
         Characteristics enemy = collision.gameObject.GetComponentInParent<Characteristics>();
-        if ((int)punch.type == (int)enemy.blockType)
+        if ((int)punch.type == (int)enemy.BlockType)
         {
             if (enemy.Block >= punch.damage) enemy.Block -= punch.damage;
             else
@@ -35,6 +35,7 @@ public class CharacterAction : MonoBehaviour
                 enemy.Health -= punch.damage - enemy.Block;
                 enemy.Block = 0;
             }
+
         }
         else
         {
@@ -44,7 +45,8 @@ public class CharacterAction : MonoBehaviour
                 if(enemy.Stamina >= punch.enemyStaminaDamage) enemy.Stamina -= punch.enemyStaminaDamage;
                 else enemy.Stamina = 0;
             }
-        }        
+        }
+        enemy.Timer = enemy.Cooldown;
     }
 }
     

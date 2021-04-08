@@ -75,5 +75,6 @@ public class CharacterControl : MonoBehaviour
         anim[punches[key].anim.name].speed = animSpeed;
         anim.Play(punches[key].anim.name);
         isPunching = true;
+        characteristics.StaminaTimer = characteristics.Cooldown;
     }
 }

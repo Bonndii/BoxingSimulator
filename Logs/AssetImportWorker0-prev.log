@@ -15,11 +15,11 @@ D:/GitHub/BoxingSimulator
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-54893
+55963
 Successfully changed project path to: D:/GitHub/BoxingSimulator
 D:/GitHub/BoxingSimulator
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 24.43 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 25.63 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.2.3f1 (8ff31bc5bf5b)
 [Subsystems] Discovering subsystems at path D:/Programs/Unity/2020.2.3f1/Editor/Data/Resources/UnitySubsystems
@@ -35,57 +35,121 @@ Initialize mono
 Mono path[0] = 'D:/Programs/Unity/2020.2.3f1/Editor/Data/Managed'
 Mono path[1] = 'D:/Programs/Unity/2020.2.3f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'D:/Programs/Unity/2020.2.3f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56176
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56964
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: D:/Programs/Unity/2020.2.3f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.000970 seconds.
+Registered in 0.000965 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 23.70 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 23.91 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.943 seconds
+- Completed reload, in  0.956 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.000937 seconds.
+Registered in 0.001151 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.28 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 0.29 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.676 seconds
+- Completed reload, in  0.689 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 0.28 ms, found 3 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
+Refreshing native plugins compatible for Editor in 0.29 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 1251 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 61.2 MB.
-System memory in use after: 61.2 MB.
+System memory in use after: 61.3 MB.
 
 Unloading 17 unused Assets to reduce memory usage. Loaded Objects now: 1686.
-Total: 1.574200 ms (FindLiveObjects: 0.152100 ms CreateObjectMapping: 0.033000 ms MarkObjects: 1.319200 ms  DeleteObjects: 0.068800 ms)
+Total: 1.670400 ms (FindLiveObjects: 0.216900 ms CreateObjectMapping: 0.042900 ms MarkObjects: 1.326700 ms  DeleteObjects: 0.083000 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/cyclops.ma
-  artifactKey: Guid(b75314af950205c4f93c59465cf907b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/cyclops.ma using Guid(b75314af950205c4f93c59465cf907b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cea436ec953307fa287905678102b0e7') in 0.785395 seconds
-  Import took 0.791542 seconds .
+  path: Assets/character.fbx
+  artifactKey: Guid(dfd8bd67b067c15418a980263d3a31ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/character.fbx using Guid(dfd8bd67b067c15418a980263d3a31ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7698dfbe778288e404c68bf3f4ebff7e') in 0.351616 seconds
+  Import took 0.353813 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 412.288683 seconds.
-  path: Assets/uploads_files_134335_man.mb
-  artifactKey: Guid(35671f11a2694874b880250771ff832f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/uploads_files_134335_man.mb using Guid(35671f11a2694874b880250771ff832f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bb95165699ecd179277b0a611c0e5522') in 0.155129 seconds
-  Import took 0.260317 seconds .
+  Time since last request: 59.825416 seconds.
+  path: Assets/Animation
+  artifactKey: Guid(9556de3f41f1d574d85a316742a17970) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation using Guid(9556de3f41f1d574d85a316742a17970) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f09e80f7b61427659c0203643c2089ce') in 0.001400 seconds
+  Import took 0.003122 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.109248 seconds.
+  path: Assets/Animation/Ch24_nonPBR@Center Block.fbx
+  artifactKey: Guid(574f9759e94b6204d969a84d85c19016) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/Ch24_nonPBR@Center Block.fbx using Guid(574f9759e94b6204d969a84d85c19016) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c3e192c42847c54ecfebc637d550c713') in 0.022691 seconds
+  Import took 0.024758 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000244 seconds.
+  path: Assets/Animation/Ch24_nonPBR@Head Hit.fbx
+  artifactKey: Guid(2c707668691d99e41af8974f786a2359) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/Ch24_nonPBR@Head Hit.fbx using Guid(2c707668691d99e41af8974f786a2359) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8490af628c979282654b92a41ae68b2a') in 0.017394 seconds
+  Import took 0.019177 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000238 seconds.
+  path: Assets/Animation/Ch24_nonPBR@Idle.fbx
+  artifactKey: Guid(a39920cd9a39cce42864efd463244304) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/Ch24_nonPBR@Idle.fbx using Guid(a39920cd9a39cce42864efd463244304) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4556f0a7917a2db2d3532ce9878a7e76') in 0.019391 seconds
+  Import took 0.026386 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000223 seconds.
+  path: Assets/Animation/Ch24_nonPBR@Punching.fbx
+  artifactKey: Guid(7e5653c2ba7381340aaec9263b6c5004) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/Ch24_nonPBR@Punching.fbx using Guid(7e5653c2ba7381340aaec9263b6c5004) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '258cdde81957690cb3148bab36460178') in 0.018642 seconds
+  Import took 0.020455 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000229 seconds.
+  path: Assets/Animation/Ch24_nonPBR@Hit To Body.fbx
+  artifactKey: Guid(78f55bce5ac525c40a4e2b6e6a879d6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/Ch24_nonPBR@Hit To Body.fbx using Guid(78f55bce5ac525c40a4e2b6e6a879d6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ebeb1df22ef5df0ba2b9aabf53d5710c') in 0.017699 seconds
+  Import took 0.019473 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 92.874185 seconds.
+  path: Assets/Animation/Ch24_nonPBR@Punching (1).fbx
+  artifactKey: Guid(af2996f4913eac94191718009ff90089) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/Ch24_nonPBR@Punching (1).fbx using Guid(af2996f4913eac94191718009ff90089) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aaff0492e95ade27f00ea9895f74ef48') in 0.046798 seconds
+  Import took 0.074771 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 22.364456 seconds.
+  path: Assets/Animation/Ch24_nonPBR@PunchingRight.fbx
+  artifactKey: Guid(af2996f4913eac94191718009ff90089) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/Ch24_nonPBR@PunchingRight.fbx using Guid(af2996f4913eac94191718009ff90089) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e47c27d4cd91008499e225a313a901b6') in 0.023710 seconds
+  Import took 0.038547 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.790119 seconds.
+  path: Assets/Animation/Ch24_nonPBR@PunchingLeft.fbx
+  artifactKey: Guid(7e5653c2ba7381340aaec9263b6c5004) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/Ch24_nonPBR@PunchingLeft.fbx using Guid(7e5653c2ba7381340aaec9263b6c5004) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b25b997444d6467e0a617d2729da5f9b') in 0.023115 seconds
+  Import took 0.034767 seconds .
 
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file

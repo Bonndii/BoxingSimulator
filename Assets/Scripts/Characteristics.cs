@@ -15,21 +15,25 @@ public class Characteristics : LoaderController<Characteristics>
 {
    
     [SerializeField]
-    private int health;
+    private float health;
     [SerializeField]
-    private int maxHealth;
+    private float maxHealth;
     [SerializeField]
-    private int block;
+    private float block;
     [SerializeField]
-    private int maxBlock;
+    private float maxBlock;
     [SerializeField]
-    private int stamina;
+    private float stamina;
     [SerializeField]
-    private int maxStamina;
-    [SerializeField]
-    public BlockType blockType;
+    private float maxStamina;
+    BlockType blockType;
+    float timer;
+    float staminaTimer;
+    float cooldown = 3;
+    
+    public AnimationCurve dif;
 
-    public int Health
+    public float Health
     {
         get
         {
@@ -41,7 +45,7 @@ public class Characteristics : LoaderController<Characteristics>
         }
     }
 
-    public int MaxHealth
+    public float MaxHealth
     {
         get
         {
@@ -53,7 +57,7 @@ public class Characteristics : LoaderController<Characteristics>
         }
     }
 
-    public int Block
+    public float Block
     {
         get
         {
@@ -65,7 +69,7 @@ public class Characteristics : LoaderController<Characteristics>
         }
     }
 
-    public int MaxBlock
+    public float MaxBlock
     {
         get
         {
@@ -77,7 +81,7 @@ public class Characteristics : LoaderController<Characteristics>
         }
     }
 
-    public int Stamina
+    public float Stamina
     {
         get
         {
@@ -89,7 +93,7 @@ public class Characteristics : LoaderController<Characteristics>
         }
     }
 
-    public int MaxStamina
+    public float MaxStamina
     {
         get
         {
@@ -100,4 +104,80 @@ public class Characteristics : LoaderController<Characteristics>
             maxStamina = value;
         }
     }
+
+    public float Timer
+    {
+        get
+        {
+            return timer;
+        }
+        set
+        {
+            timer = value;
+        }
+    }
+
+    public float StaminaTimer
+    {
+        get
+        {
+            return staminaTimer;
+        }
+        set
+        {
+            staminaTimer = value;
+        }
+    }
+
+    public float Cooldown
+    {
+        get
+        {
+            return cooldown;
+        }
+        set
+        {
+            cooldown = value;
+        }
+    }
+
+    public BlockType BlockType
+    {
+        get
+        {
+            return blockType;
+        }
+        set
+        {
+            blockType = value;
+        }
+    }
+
+    public void Update()
+    {
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        if (staminaTimer > 0)
+        {
+            staminaTimer -= Time.deltaTime;
+        }
+
+        if (timer <= 0)
+        {
+            if (health < maxHealth)
+            {
+                health += 500 * Time.deltaTime;
+            }
+            if (block < maxBlock)
+            {
+                block += 500 * Time.deltaTime;
+            }
+            if (stamina < maxStamina && staminaTimer <= 0)
+            {
+                stamina += 500 * Time.deltaTime;
+            }
+        }
+    }   
 }
