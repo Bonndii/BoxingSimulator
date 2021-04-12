@@ -1,0 +1,22 @@
+print "Starting maya loading and fbx conversion \n";
+	
+if (`file -q -exists "D:/GitHub/BoxingSimulator/Assets/Boxer.mb"`)
+{		
+	file -o "D:/GitHub/BoxingSimulator/Assets/Boxer.mb";
+	FBXExportEmbeddedTextures -v false;
+	// FBXExportHardEdges -v true;
+	FBXExportApplyConstantKeyReducer -v false;
+	FBXExportShowUI -v false;
+
+	print "Before fbx export\n";
+	FBXExport -f "D:/GitHub/BoxingSimulator/Temp/ExportedFBXFile.fbx";
+	print "after fbx export\n";
+}
+else
+	print "Could not open Maya file.";
+
+sysFile -delete "D:/GitHub/BoxingSimulator/Temp/CommandPipe";
+
+$donepipeKill = `fopen "D:/GitHub/BoxingSimulator/Temp/SyncPipeKill" "w"`;
+fwrite $donepipeKill "Done";
+fclose $donepipeKill;

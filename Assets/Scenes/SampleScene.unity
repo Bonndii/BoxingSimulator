@@ -450,9 +450,9 @@ MonoBehaviour:
   maxHealth: 10000
   block: 5000
   maxBlock: 5000
-  stamina: 10000
-  maxStamina: 10000
-  dif:
+  stamina: 1000
+  maxStamina: 1000
+  staminaDmgMulti:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -465,13 +465,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.9990617
-      value: 1.7097372
-      inSlope: 2
-      outSlope: 2
+      time: 6.7
+      value: 1.5
+      inSlope: 0.1339869
+      outSlope: 0.1339869
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 10.00824
+      value: 2
+      inSlope: 0.18927558
+      outSlope: 0.18927558
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.145144
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -2425,9 +2434,9 @@ MonoBehaviour:
   maxHealth: 100000
   block: 5500
   maxBlock: 5000
-  stamina: 10000
+  stamina: 1000
   maxStamina: 1000
-  dif:
+  staminaDmgMulti:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2

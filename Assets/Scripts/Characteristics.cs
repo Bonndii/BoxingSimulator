@@ -30,8 +30,8 @@ public class Characteristics : LoaderController<Characteristics>
     float timer;
     float staminaTimer;
     float cooldown = 3;
-    
-    public AnimationCurve dif;
+    [SerializeField]
+    private AnimationCurve staminaDmgMulti;
 
     public float Health
     {
@@ -150,6 +150,18 @@ public class Characteristics : LoaderController<Characteristics>
         set
         {
             blockType = value;
+        }
+    }
+
+    public AnimationCurve StaminaDmgMulti
+    {
+        get
+        {
+            return staminaDmgMulti;
+        }
+        set
+        {
+            staminaDmgMulti = value;
         }
     }
 

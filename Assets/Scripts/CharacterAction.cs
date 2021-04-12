@@ -27,19 +27,23 @@ public class CharacterAction : MonoBehaviour
     public void ApplyDamage(Punch punch, Collider collision)
     {
         Characteristics enemy = collision.gameObject.GetComponentInParent<Characteristics>();
+        float dmgMulti = characteristics.StaminaDmgMulti.Evaluate((enemy.MaxStamina - enemy.Stamina) / 100f);
         if ((int)punch.type == (int)enemy.BlockType)
         {
-            if (enemy.Block >= punch.damage) enemy.Block -= punch.damage;
+            if (enemy.Block >= punch.damage) 
+            {
+                enemy.Block -= punch.damage * dmgMulti;
+            }
             else
             {
-                enemy.Health -= punch.damage - enemy.Block;
+                enemy.Health -= punch.damage*dmgMulti - enemy.Block;
                 enemy.Block = 0;
             }
 
         }
         else
         {
-            enemy.Health -= punch.damage;
+            enemy.Health -= punch.damage * dmgMulti;
             if (punch.type == PunchType.Lower)
             {
                 if(enemy.Stamina >= punch.enemyStaminaDamage) enemy.Stamina -= punch.enemyStaminaDamage;

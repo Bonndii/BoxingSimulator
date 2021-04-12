@@ -25,8 +25,8 @@ public class CharacterControl : MonoBehaviour
         boxerCollider = GetComponent<Collider>();
         anim = GetComponent<Animation>();
         punches = new Dictionary<KeyCode, Punch>();
-        punches.Add(KeyCode.Mouse0, new Punch(1000, 1000, anim.GetClip("LeftStraight"), PunchType.Upper));
-        punches.Add(KeyCode.Mouse1, new Punch(2000, 2000, anim.GetClip("RightStraight"), PunchType.Lower, 2000));
+        punches.Add(KeyCode.Mouse0, new Punch(1000, 100, anim.GetClip("LeftStraight"), PunchType.Upper));
+        punches.Add(KeyCode.Mouse1, new Punch(2000, 200, anim.GetClip("RightStraight"), PunchType.Lower, 200));
     }
 
     void Update()
@@ -65,7 +65,11 @@ public class CharacterControl : MonoBehaviour
     }
     public void MakePunch(KeyCode key)
     {
-        if (characteristics.Stamina >= punches[key].staminaDamage) characteristics.Stamina -= punches[key].staminaDamage;
+        if (characteristics.Stamina >= punches[key].staminaDamage) 
+        { 
+            characteristics.Stamina -= punches[key].staminaDamage;
+            animSpeed = 1f;
+        }
         else
         {
             characteristics.Stamina = 0;
