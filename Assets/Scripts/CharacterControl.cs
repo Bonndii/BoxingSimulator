@@ -16,17 +16,18 @@ public class CharacterControl : MonoBehaviour
     private Collider boxerCollider;
     Animation anim;
     float animSpeed = 1f;
-    KeyCode k;
-    Dictionary<KeyCode, Punch> punches;
+    int k;
+    [SerializeField]
+    Punch[] punches;
     bool isPunching = false;
 
     void Start()
     {
         boxerCollider = GetComponent<Collider>();
         anim = GetComponent<Animation>();
-        punches = new Dictionary<KeyCode, Punch>();
-        punches.Add(KeyCode.Mouse0, new Punch(1000, 100, anim.GetClip("LeftStraight"), PunchType.Upper));
-        punches.Add(KeyCode.Mouse1, new Punch(2000, 200, anim.GetClip("RightStraight"), PunchType.Lower, 200));
+        punches = new Punch[12];
+        punches[0] = new Punch(1000, 100, anim.GetClip("LeftStraight"), PunchType.Upper, KeyCode.Mouse0);
+        punches[1] = new Punch(2000, 200, anim.GetClip("RightStraight"), PunchType.Lower, KeyCode.Mouse1, 200);
     }
 
     void Update()
@@ -35,12 +36,12 @@ public class CharacterControl : MonoBehaviour
         float z = Input.GetAxis("Vertical");
         Vector3 move = transform.right * (-x) + transform.forward * (-z);
         controller.Move(move * speed * Time.deltaTime);
-        foreach(KeyCode key in punches.Keys)
+        for (int i = 0; i < 2; i++) 
         {
-            if (Input.GetKeyDown(key) && !anim.isPlaying)
+            if (Input.GetKeyDown(punches[i].key) && !anim.isPlaying)
             {
-                MakePunch(key);
-                k = key;
+                MakePunch(i);
+                k = i;
             }
         }
     }
@@ -63,21 +64,21 @@ public class CharacterControl : MonoBehaviour
             isPunching = false;
         }
     }
-    public void MakePunch(KeyCode key)
+    public void MakePunch(int i)
     {
-        if (characteristics.Stamina >= punches[key].staminaDamage) 
+        if (characteristics.Stamina >= punches[i].staminaDamage) 
         { 
-            characteristics.Stamina -= punches[key].staminaDamage;
+            characteristics.Stamina -= punches[i].staminaDamage;
             animSpeed = 1f;
         }
         else
         {
             characteristics.Stamina = 0;
-            punches[key].damage = punches[key].maxDamage / 2;
+            punches[i].damage = punches[i].maxDamage * 0.5f;
             animSpeed = 0.5f;
         }
-        anim[punches[key].anim.name].speed = animSpeed;
-        anim.Play(punches[key].anim.name);
+        anim[punches[i].anim.name].speed = animSpeed;
+        anim.Play(punches[i].anim.name);
         isPunching = true;
         characteristics.StaminaTimer = characteristics.Cooldown;
     }

@@ -9,6 +9,13 @@ public class FightController : MonoBehaviour
     [SerializeField] private float fightCooldown = 180f;
     [SerializeField] private float pauseCooldown = 60f;
 
+    
+
+    private void Start()
+    {
+
+    }
+
     void Update()
     {
         if (fightTimer > 0)

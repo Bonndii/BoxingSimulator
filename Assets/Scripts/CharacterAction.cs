@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Punch
 {
-    public int maxDamage;
-    public int damage;
-    public int staminaDamage;
-    public int enemyStaminaDamage;
+    public float maxDamage;
+    public float damage;
+    public float staminaDamage;
+    public float enemyStaminaDamage;
     public AnimationClip anim;
     public PunchType type;
+    public KeyCode key;
 
-    public Punch(int maxDmg, int stDmg, AnimationClip an, PunchType t, int enStDmg = 0)
+    public Punch(float maxDmg, float stDmg, AnimationClip an, PunchType t, KeyCode k, float enStDmg = 0)
     {
         maxDamage = maxDmg;
         damage = maxDmg;
@@ -18,6 +19,7 @@ public class Punch
         enemyStaminaDamage = enStDmg;
         anim = an;
         type = t;
+        key = k;
     }
 }
 public class CharacterAction : MonoBehaviour
@@ -26,7 +28,7 @@ public class CharacterAction : MonoBehaviour
     public void ApplyDamage(Punch punch, Collider collision)
     {
         Characteristics enemy = collision.gameObject.GetComponentInParent<Characteristics>();
-        float dmgMulti = enemy.StaminaDmgMulti.Evaluate((enemy.MaxStamina - enemy.Stamina) / 100f);
+        float dmgMulti = enemy.StaminaDmgMulti.Evaluate((enemy.MaxStamina - enemy.Stamina) * 0.01f);
         if ((int)punch.type == (int)enemy.BlockType)
         {
             if (enemy.Block >= punch.damage) 

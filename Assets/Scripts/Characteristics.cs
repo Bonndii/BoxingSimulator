@@ -11,7 +11,7 @@ public enum BlockType
     None, Upper, Lower
 }
 
-public class Characteristics : LoaderController<Characteristics>
+public class Characteristics : MonoBehaviour
 {
    
     [SerializeField]
@@ -19,19 +19,13 @@ public class Characteristics : LoaderController<Characteristics>
     [SerializeField]
     private float maxHealth;
     [SerializeField]
-    private float initialMaxHealth;
-    [SerializeField]
     private float block;
     [SerializeField]
     private float maxBlock;
     [SerializeField]
-    private float initialMaxBlock;
-    [SerializeField]
     private float stamina;
     [SerializeField]
     private float maxStamina;
-    [SerializeField]
-    private float initialMaxStamina;
     BlockType blockType;
     float timer;
     float staminaTimer;
@@ -39,6 +33,7 @@ public class Characteristics : LoaderController<Characteristics>
     [SerializeField]
     private AnimationCurve staminaDmgMulti;
     private int points = 0;
+    public float t;
 
     public float Health
     {
@@ -197,6 +192,7 @@ public class Characteristics : LoaderController<Characteristics>
 
         if (timer <= 0)
         {
+            t += Time.deltaTime;
             if (health < maxHealth)
             {
                 health += 500 * Time.deltaTime;
@@ -210,5 +206,10 @@ public class Characteristics : LoaderController<Characteristics>
                 stamina += 500 * Time.deltaTime;
             }
         }
-    }   
+    }
+
+    public void RegenStats()
+    {
+
+    }
 }

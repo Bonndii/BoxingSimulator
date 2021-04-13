@@ -448,13 +448,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10000
   maxHealth: 10000
-  initialMaxHealth: 0
   block: 5000
   maxBlock: 5000
-  initialMaxBlock: 0
   stamina: 1000
   maxStamina: 1000
-  initialMaxStamina: 0
   staminaDmgMulti:
     serializedVersion: 2
     m_Curve:
@@ -488,6 +485,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  t: 0
 --- !u!114 &429536880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,6 +819,7 @@ GameObject:
   - component: {fileID: 463002094}
   - component: {fileID: 463002093}
   - component: {fileID: 463002092}
+  - component: {fileID: 463002095}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -893,6 +892,22 @@ Transform:
   m_Father: {fileID: 429536877}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 52.355, z: 0}
+--- !u!114 &463002095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463002091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b59cc467cdc11c349b367572eca1a6db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fightTimer: 180
+  pauseTimer: 60
+  fightCooldown: 180
+  pauseCooldown: 60
 --- !u!1 &476676789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3564783574603935192, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
@@ -2434,13 +2449,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100000
   maxHealth: 100000
-  initialMaxHealth: 0
   block: 5500
   maxBlock: 5000
-  initialMaxBlock: 0
   stamina: 1000
   maxStamina: 1000
-  initialMaxStamina: 0
   staminaDmgMulti:
     serializedVersion: 2
     m_Curve:
@@ -2474,6 +2486,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  t: 0
 --- !u!54 &1293704758
 Rigidbody:
   m_ObjectHideFlags: 0
