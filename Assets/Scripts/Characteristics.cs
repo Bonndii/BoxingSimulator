@@ -19,19 +19,26 @@ public class Characteristics : LoaderController<Characteristics>
     [SerializeField]
     private float maxHealth;
     [SerializeField]
+    private float initialMaxHealth;
+    [SerializeField]
     private float block;
     [SerializeField]
     private float maxBlock;
     [SerializeField]
+    private float initialMaxBlock;
+    [SerializeField]
     private float stamina;
     [SerializeField]
     private float maxStamina;
+    [SerializeField]
+    private float initialMaxStamina;
     BlockType blockType;
     float timer;
     float staminaTimer;
     float cooldown = 3;
     [SerializeField]
     private AnimationCurve staminaDmgMulti;
+    private int points = 0;
 
     public float Health
     {
@@ -102,6 +109,18 @@ public class Characteristics : LoaderController<Characteristics>
         set
         {
             maxStamina = value;
+        }
+    }
+
+    public int Points
+    {
+        get
+        {
+            return points;
+        }
+        set
+        {
+            points = value;
         }
     }
 

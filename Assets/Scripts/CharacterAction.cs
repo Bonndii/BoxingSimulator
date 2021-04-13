@@ -23,11 +23,10 @@ public class Punch
 public class CharacterAction : MonoBehaviour
 {
     [SerializeField]
-    private Characteristics characteristics;
     public void ApplyDamage(Punch punch, Collider collision)
     {
         Characteristics enemy = collision.gameObject.GetComponentInParent<Characteristics>();
-        float dmgMulti = characteristics.StaminaDmgMulti.Evaluate((enemy.MaxStamina - enemy.Stamina) / 100f);
+        float dmgMulti = enemy.StaminaDmgMulti.Evaluate((enemy.MaxStamina - enemy.Stamina) / 100f);
         if ((int)punch.type == (int)enemy.BlockType)
         {
             if (enemy.Block >= punch.damage) 
