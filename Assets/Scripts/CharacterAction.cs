@@ -25,6 +25,7 @@ public class Punch
 public class CharacterAction : MonoBehaviour
 {
     [SerializeField]
+    private Characteristics characteristics;
     public void ApplyDamage(Punch punch, Collider collision)
     {
         Characteristics enemy = collision.gameObject.GetComponentInParent<Characteristics>();
@@ -33,22 +34,55 @@ public class CharacterAction : MonoBehaviour
         {
             if (enemy.Block >= punch.damage) 
             {
-                enemy.Block -= punch.damage * dmgMulti;
+                enemy.Block -= punch.damage;
+                enemy.BlockTaken += punch.damage;
             }
             else
             {
-                enemy.Health -= punch.damage*dmgMulti - enemy.Block;
-                enemy.Block = 0;
+                if(enemy.Health - punch.damage * dmgMulti + enemy.Block >=0)
+                {
+                    enemy.Health -= punch.damage * dmgMulti - enemy.Block;
+                    enemy.BlockTaken += enemy.Block;
+                    enemy.DamageTaken += punch.damage * dmgMulti - enemy.Block;
+                    enemy.Block = 0;
+                    characteristics.Points += 1;
+                }
+                else
+                {
+                    enemy.BlockTaken += enemy.Block;
+                    enemy.DamageTaken += punch.damage * dmgMulti - enemy.Block;
+                    enemy.Health = 0;
+                    enemy.Block = 0;
+                    characteristics.Points += 1;
+                }              
             }
-
         }
         else
         {
-            enemy.Health -= punch.damage * dmgMulti;
+            if(enemy.Health - punch.damage * dmgMulti >= 0)
+            {
+                enemy.Health -= punch.damage * dmgMulti;
+                enemy.DamageTaken += punch.damage * dmgMulti;
+                characteristics.Points += 1;
+            }
+            else
+            {
+                enemy.DamageTaken += enemy.Health;
+                enemy.Health = 0;
+                characteristics.Points += 1;
+            }            
             if (punch.type == PunchType.Lower)
             {
-                if(enemy.Stamina >= punch.enemyStaminaDamage) enemy.Stamina -= punch.enemyStaminaDamage;
-                else enemy.Stamina = 0;
+                if (enemy.Stamina >= punch.enemyStaminaDamage)
+                {
+                    enemy.Stamina -= punch.enemyStaminaDamage;
+                    enemy.StaminaTaken += punch.enemyStaminaDamage;
+                }
+                else 
+                {
+                    enemy.StaminaTaken += enemy.Stamina;
+                    enemy.Stamina = 0; 
+                }
             }
         }
         enemy.Timer = enemy.Cooldown;

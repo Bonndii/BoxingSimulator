@@ -6,6 +6,8 @@ using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
     [SerializeField]
+    private FightController fightController;
+    [SerializeField]
     private CharacterAction Action;
     [SerializeField]
     private Characteristics characteristics;
@@ -32,18 +34,22 @@ public class CharacterControl : MonoBehaviour
 
     void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        Vector3 move = transform.right * (-x) + transform.forward * (-z);
-        controller.Move(move * speed * Time.deltaTime);
-        for (int i = 0; i < 2; i++) 
+        if(fightController.Status == CurrentStatus.Fight)
         {
-            if (Input.GetKeyDown(punches[i].key) && !anim.isPlaying)
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+            Vector3 move = transform.right * (-x) + transform.forward * (-z);
+            controller.Move(move * speed * Time.deltaTime);
+            for (int i = 0; i < 2; i++)
             {
-                MakePunch(i);
-                k = i;
+                if (Input.GetKeyDown(punches[i].key) && !anim.isPlaying)
+                {
+                    MakePunch(i);
+                    k = i;
+                }
             }
         }
+       
     }
 
     void OnTriggerEnter(Collider collision)
