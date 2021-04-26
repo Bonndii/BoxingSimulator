@@ -16,6 +16,6 @@ MonoBehaviour:
   damage: 500
   staminaDamage: 100
   enemyStaminaDamage: 0
-  anim: {fileID: 7400000, guid: 803f6f6408a42c147b24eee41f583869, type: 2}
+  anim: {fileID: 7400000, guid: 6045370cadb50274db67e3d111a84587, type: 2}
   type: 1
   key: 323

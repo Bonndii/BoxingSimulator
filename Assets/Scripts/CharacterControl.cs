@@ -21,6 +21,8 @@ public class CharacterControl : MonoBehaviour
 
     private Animation anim;
 
+    private Animator animat;
+
     private Punch currentPunch;
 
 
@@ -28,6 +30,7 @@ public class CharacterControl : MonoBehaviour
     {
         anim = GetComponent<Animation>();
 
+        animat = GetComponent<Animator>();
         //punches = new Punch[]
         //{
         //    new Punch(1000, 100, anim.GetClip("LeftStraight"), PunchType.Upper, KeyCode.Mouse0),
@@ -43,16 +46,21 @@ public class CharacterControl : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * (-z) + transform.forward * (x);
+        if (x == 0 && z == 0) animat.SetBool("isWalking", false);
+        else animat.SetBool("isWalking", true);
+
+        Vector3 move = transform.right * (x) + transform.forward * (z);
         controller.Move(move * speed * Time.deltaTime);
 
-        if (anim.isPlaying)
-            return;
+        
 
         foreach (Punch punch in punches)
         {
-            if (Input.GetKeyDown(punch.key))
+            if (Input.GetKeyDown(punch.key) && currentPunch == null)
+            {
                 MakePunch(punch);
+                animat.SetBool("isPunching", true);
+            }
         }
     }
 
@@ -77,7 +85,10 @@ public class CharacterControl : MonoBehaviour
     public void AnimationEnd(string message)
     {
         if (message.Equals("AnimationEnded"))
+        {
             currentPunch = null;
+            animat.SetBool("isPunching", false);
+        }
     }
 
     public void MakePunch(Punch punch)
@@ -96,8 +107,9 @@ public class CharacterControl : MonoBehaviour
             animSpeed = 0.5f;
         }
 
-        anim[currentPunch.anim.name].speed = animSpeed;
-        anim.Play(currentPunch.anim.name);
+        animat.Play($"Base Layer.{currentPunch.anim.name}");
+        animat.SetFloat("animSpeedMulti", animSpeed);
+        
         characteristics.ResetStaminaTimer();
     }
 }
