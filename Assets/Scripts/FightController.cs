@@ -8,74 +8,58 @@ public enum CurrentStatus
 }
 public class FightController : MonoBehaviour
 {
-    [SerializeField]
-    Characteristics c1, c2;
-    [SerializeField]
-    CurrentStatus status;
-    [SerializeField] 
-    private float fightTimer = 180f;
-    [SerializeField] 
-    private float pauseTimer = 60f;
-    [SerializeField] 
-    private float fightCooldown = 180f;
-    [SerializeField] 
-    private float pauseCooldown = 60f;
-    [SerializeField]
+    [Header("Settings")]
+    [SerializeField] private float fightTimer = 180f;
+    [SerializeField] private float pauseTimer = 60f;
+    [SerializeField] private float fightCooldown = 180f;
+    [SerializeField] private float pauseCooldown = 60f;
+
+    [Header("References")]
+    [SerializeField] private GameObject spawn1;
+    [SerializeField] private GameObject spawn2;
+    [SerializeField] private Characteristics first;
+    [SerializeField] private Characteristics second;
+
     private int rounds = 1;
-    [SerializeField]
-    private GameObject spawn1;
-    [SerializeField]
-    private GameObject spawn2;
 
 
-    public CurrentStatus Status
-    {
-        get
-        {
-            return status;
-        }
-        set
-        {
-            status = value;
-        }
-    }
 
-    private void Start()
-    {
-
-    }
-
-    void Update()
+    private void Update()
     {
         if (fightTimer > 0)
         {
             fightTimer -= Time.deltaTime;
-            status = CurrentStatus.Fight;
+            SetStatus(CurrentStatus.Fight);
+            return;
         }
-        else
+
+        if (pauseTimer > 0)
         {
-            if (pauseTimer > 0)
-            {
-                if(Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape))
-                {
-                    pauseTimer = 0;
-                }
-                pauseTimer -= Time.deltaTime;
-                status = CurrentStatus.Pause;
-                c2.transform.position = spawn1.transform.position;
-                c1.transform.position = spawn2.transform.position;
-            }
-            else
-            {
-                fightTimer = fightCooldown;
-                pauseTimer = pauseCooldown;
-                c1.RegenStats();
-                c2.RegenStats();
-                if (rounds < 12)
-                {
-                    rounds += 1;
-                }
-            }
+            if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape))
+                pauseTimer = 0;
+
+            pauseTimer -= Time.deltaTime;
+            SetStatus(CurrentStatus.Pause);
+
+            second.transform.position = spawn1.transform.position;
+            first.transform.position = spawn2.transform.position;
+
+            return;
         }
+
+        fightTimer = fightCooldown;
+        pauseTimer = pauseCooldown;
+
+        first.RegenStats();
+        second.RegenStats();
+
+        if (rounds < 12)
+            rounds += 1;
+    }
+
+    private void SetStatus(CurrentStatus status)
+    {
+        first.isFighting = status == CurrentStatus.Fight;
+        second.isFighting = status == CurrentStatus.Fight;
     }
 }

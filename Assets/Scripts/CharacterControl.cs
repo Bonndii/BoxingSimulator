@@ -2,90 +2,102 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[RequireComponent(typeof(Animation))]
 public class CharacterControl : MonoBehaviour
 {
-    [SerializeField]
-    private FightController fightController;
-    [SerializeField]
-    private CharacterAction Action;
-    [SerializeField]
-    private Characteristics characteristics;
-    [SerializeField]
-    private CharacterController controller;
-    [SerializeField]
-    private float speed;
-    private Collider boxerCollider;
-    Animation anim;
-    float animSpeed = 1f;
-    int k;
-    [SerializeField]
-    Punch[] punches;
-    bool isPunching = false;
+    [Header("Settings")]
+    [SerializeField] private float speed;
 
-    void Start()
+    [Header("References")]
+    [SerializeField] private Characteristics characteristics;
+    [SerializeField] private CharacterController controller;
+
+    [Header("Punches")]
+    [SerializeField] private Punch[] punches;
+
+    [HideInInspector] public bool isFighting;
+
+    private float animSpeed = 1f;
+
+    private Animation anim;
+
+    private Punch currentPunch;
+
+
+    private void Start()
     {
-        boxerCollider = GetComponent<Collider>();
         anim = GetComponent<Animation>();
-        punches = new Punch[12];
-        punches[0] = new Punch(1000, 100, anim.GetClip("LeftStraight"), PunchType.Upper, KeyCode.Mouse0);
-        punches[1] = new Punch(2000, 200, anim.GetClip("RightStraight"), PunchType.Lower, KeyCode.Mouse1, 200);
+
+        //punches = new Punch[]
+        //{
+        //    new Punch(1000, 100, anim.GetClip("LeftStraight"), PunchType.Upper, KeyCode.Mouse0),
+        //    new Punch(2000, 200, anim.GetClip("RightStraight"), PunchType.Lower, KeyCode.Mouse1, 200)
+        //};
     }
 
-    void Update()
+    private void Update()
     {
-        if(fightController.Status == CurrentStatus.Fight)
+        if (!characteristics.isFighting)
+            return;
+
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        Vector3 move = transform.right * (-z) + transform.forward * (x);
+        controller.Move(move * speed * Time.deltaTime);
+
+        if (anim.isPlaying)
+            return;
+
+        foreach (Punch punch in punches)
         {
-            float x = Input.GetAxis("Horizontal");
-            float z = Input.GetAxis("Vertical");
-            Vector3 move = transform.right * (-x) + transform.forward * (-z);
-            controller.Move(move * speed * Time.deltaTime);
-            for (int i = 0; i < 2; i++)
-            {
-                if (Input.GetKeyDown(punches[i].key) && !anim.isPlaying)
-                {
-                    MakePunch(i);
-                    k = i;
-                }
-            }
+            if (Input.GetKeyDown(punch.key))
+                MakePunch(punch);
         }
-       
     }
 
-    void OnTriggerEnter(Collider collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (isPunching)
-        {
-            Action.ApplyDamage(punches[k], collision);
-            isPunching = false;
-            anim[punches[k].anim.name].speed = -animSpeed;
-            anim.Play(punches[k].anim.name);
-        }
+        if (currentPunch == null)
+            return;
+
+        Characteristics enemy = collision.gameObject.GetComponentInParent<Characteristics>();
+        if (enemy == null)
+            return;
+
+        if (enemy.TakeDamage(currentPunch))
+            characteristics.points++;
+
+        anim[currentPunch.anim.name].speed = -animSpeed;
+        anim.Play(currentPunch.anim.name);
+
+        currentPunch = null;
     }
 
     public void AnimationEnd(string message)
     {
-        if (message.Equals("AnimationEnded")) 
-        { 
-            isPunching = false;
-        }
+        if (message.Equals("AnimationEnded"))
+            currentPunch = null;
     }
-    public void MakePunch(int i)
+
+    public void MakePunch(Punch punch)
     {
-        if (characteristics.Stamina >= punches[i].staminaDamage) 
-        { 
-            characteristics.Stamina -= punches[i].staminaDamage;
+        currentPunch = punch;
+
+        if (characteristics.stamina >= currentPunch.staminaDamage) 
+        {
+            characteristics.stamina -= currentPunch.staminaDamage;
             animSpeed = 1f;
         }
         else
         {
-            characteristics.Stamina = 0;
-            punches[i].damage = punches[i].maxDamage * 0.5f;
+            characteristics.stamina = 0;
+            currentPunch.damage = currentPunch.maxDamage * 0.5f;
             animSpeed = 0.5f;
         }
-        anim[punches[i].anim.name].speed = animSpeed;
-        anim.Play(punches[i].anim.name);
-        isPunching = true;
-        characteristics.StaminaTimer = characteristics.Cooldown;
+
+        anim[currentPunch.anim.name].speed = animSpeed;
+        anim.Play(currentPunch.anim.name);
+        characteristics.ResetStaminaTimer();
     }
 }

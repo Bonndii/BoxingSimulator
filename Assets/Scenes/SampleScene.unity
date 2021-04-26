@@ -476,13 +476,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1bcafb85d1f5a47900cf65f06f198d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10000
   maxHealth: 10000
-  block: 5000
   maxBlock: 5000
-  stamina: 1000
   maxStamina: 1000
-  blockType: 0
   staminaDmgMulti:
     serializedVersion: 2
     m_Curve:
@@ -517,11 +513,14 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   points: 0
+  isFighting: 0
+  health: 10000
+  block: 5000
+  stamina: 1000
   damageTaken: 0
   staminaTaken: 0
   blockTaken: 0
-  t: 0
-  fightController: {fileID: 463002095}
+  blockType: 0
 --- !u!114 &429536880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,11 +561,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b101d3301fc7b114d8d59bd35c679aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fightController: {fileID: 463002095}
-  Action: {fileID: 429536884}
+  speed: 1
   characteristics: {fileID: 429536878}
   controller: {fileID: 429536883}
-  speed: 1
+  punches:
+  - {fileID: 11400000, guid: 16043eb626fc0ca48aef05fa233855de, type: 2}
+  - {fileID: 11400000, guid: 6090d03e3811f5049a72bb6af4ae2a53, type: 2}
+  isFighting: 0
 --- !u!143 &429536883
 CharacterController:
   m_ObjectHideFlags: 0
@@ -942,16 +943,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b59cc467cdc11c349b367572eca1a6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  c1: {fileID: 1293704756}
-  c2: {fileID: 429536878}
-  status: 0
-  fightTimer: 10
-  pauseTimer: 5
-  fightCooldown: 10
-  pauseCooldown: 5
-  rounds: 1
+  fightTimer: 180
+  pauseTimer: 60
+  fightCooldown: 180
+  pauseCooldown: 60
   spawn1: {fileID: 519749444}
   spawn2: {fileID: 79407610}
+  first: {fileID: 1293704756}
+  second: {fileID: 429536878}
 --- !u!1 &476676789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3564783574603935192, guid: 31dfbedee86965846a91a4305894cb71, type: 3}
@@ -2521,13 +2520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1bcafb85d1f5a47900cf65f06f198d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100000
   maxHealth: 100000
-  block: 5500
   maxBlock: 5000
-  stamina: 1000
   maxStamina: 1000
-  blockType: 1
   staminaDmgMulti:
     serializedVersion: 2
     m_Curve:
@@ -2562,11 +2557,14 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   points: 0
+  isFighting: 0
+  health: 100000
+  block: 5500
+  stamina: 1000
   damageTaken: 0
   staminaTaken: 0
   blockTaken: 0
-  t: 0
-  fightController: {fileID: 463002095}
+  blockType: 1
 --- !u!54 &1293704758
 Rigidbody:
   m_ObjectHideFlags: 0

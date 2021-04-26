@@ -6,10 +6,7 @@ public enum PunchType
 {
     None, Upper, Lower
 }
-public enum BlockType
-{
-    None, Upper, Lower
-}
+
 
 public class Characteristics : MonoBehaviour
 {
@@ -23,293 +20,159 @@ public class Characteristics : MonoBehaviour
     private const float baseStaminaRegen = 1000f;
     private const float baseBlockRegen = 1000f;
 
-    [SerializeField]
-    private float health;
-    [SerializeField]
-    private float maxHealth;
-    [SerializeField]
-    private float block;
-    [SerializeField]
-    private float maxBlock;
-    [SerializeField]
-    private float stamina;
-    [SerializeField]
-    private float maxStamina;
-    [SerializeField]
-    BlockType blockType;
-    float timer;
-    float staminaTimer;
-    float cooldown = 3;
-    [SerializeField]
-    private AnimationCurve staminaDmgMulti;
-    [SerializeField]
-    private int points = 0;
-    [SerializeField]
-    private float damageTaken;
-    [SerializeField]
-    private float staminaTaken;
-    [SerializeField]
-    private float blockTaken;
-    [SerializeField]
+    [Header("Settings")]
+    [SerializeField] private float maxHealth;
+    [SerializeField] private float maxBlock;
+    [SerializeField] private float maxStamina;
+    public AnimationCurve staminaDmgMulti;
+
+    [Header("Score")]
+    public int points;
+
+    [HideInInspector] public bool isFighting;
+     public float health;
+     public float block;
+     public float stamina;
+    [HideInInspector] public float damageTaken;
+    [HideInInspector] public float staminaTaken;
+    [HideInInspector] public float blockTaken;
+    [HideInInspector] public PunchType blockType;
+
+    public float EvaluatedStamina => staminaDmgMulti.Evaluate((maxStamina - stamina) * 0.01f);
+
+    private float timer;
+    private float staminaTimer;
+    private float cooldown = 3;
     private float t;
-    [SerializeField]
-    private FightController fightController;
 
-    public int Points
-    {
-        get
-        {
-            return points;
-        }
-        set
-        {
-            points = value;
-        }
-    }
-    public float DamageTaken
-    {
-        get
-        {
-            return damageTaken;
-        }
-        set
-        {
-            damageTaken = value;
-        }
-    }
-    public float StaminaTaken
-    {
-        get
-        {
-            return staminaTaken;
-        }
-        set
-        {
-            staminaTaken = value;
-        }
-    }
-    public float BlockTaken
-    {
-        get
-        {
-            return blockTaken;
-        }
-        set
-        {
-            blockTaken = value;
-        }
-    }
-    public float Health
-    {
-        get
-        {
-            return health;
-        }
-        set
-        {
-            health = value;
-        }
-    }
 
-    public float MaxHealth
+    private void Update()
     {
-        get
+        if (isFighting)
         {
-            return maxHealth;
-        }
-        set
-        {
-            maxHealth = value;
-        }
-    }
-
-    public float Block
-    {
-        get
-        {
-            return block;
-        }
-        set
-        {
-            block = value;
-        }
-    }
-
-    public float MaxBlock
-    {
-        get
-        {
-            return maxBlock;
-        }
-        set
-        {
-            maxBlock = value;
-        }
-    }
-
-    public float Stamina
-    {
-        get
-        {
-            return stamina;
-        }
-        set
-        {
-            stamina = value;
-        }
-    }
-
-    public float MaxStamina
-    {
-        get
-        {
-            return maxStamina;
-        }
-        set
-        {
-            maxStamina = value;
-        }
-    }
-
-    public float Timer
-    {
-        get
-        {
-            return timer;
-        }
-        set
-        {
-            timer = value;
-        }
-    }
-
-    public float StaminaTimer
-    {
-        get
-        {
-            return staminaTimer;
-        }
-        set
-        {
-            staminaTimer = value;
-        }
-    }
-
-    public float Cooldown
-    {
-        get
-        {
-            return cooldown;
-        }
-        set
-        {
-            cooldown = value;
-        }
-    }
-
-    public BlockType BlockType
-    {
-        get
-        {
-            return blockType;
-        }
-        set
-        {
-            blockType = value;
-        }
-    }
-
-    public AnimationCurve StaminaDmgMulti
-    {
-        get
-        {
-            return staminaDmgMulti;
-        }
-        set
-        {
-            staminaDmgMulti = value;
-        }
-    }
-
-    public void Update()
-    {
-        if (fightController.Status == CurrentStatus.Fight)
-        {
-            if (timer > 0)
-            {
-                timer -= Time.deltaTime;
-            }
             if (staminaTimer > 0)
-            {
                 staminaTimer -= Time.deltaTime;
-            }
 
-            if (timer <= 0)
+            if (timer > 0)
+                timer -= Time.deltaTime;
+            else
             {
                 t += Time.deltaTime;
-                maxHealth -= damageTaken / 10f;
-                damageTaken = 0f;
-                maxStamina -= staminaTaken / 10f;
-                staminaTaken = 0f;
-                maxBlock -= blockTaken / 10f;
-                blockTaken = 0f;
-                if (health < maxHealth)
-                {
-                    health += 500 * Time.deltaTime;
-                }
-                if (block < maxBlock)
-                {
-                    block += 500 * Time.deltaTime;
-                }
-                if (stamina < maxStamina && staminaTimer <= 0)
-                {
-                    stamina += 500 * Time.deltaTime;
-                }
+                ApplyTakenDamage();
+
+                if (health < maxHealth) health += 500 * Time.deltaTime;
+
+                if (block < maxBlock) block += 500 * Time.deltaTime;
+
+                if (stamina < maxStamina && staminaTimer <= 0) stamina += 500 * Time.deltaTime;
             }
         }
-        if(fightController.Status == CurrentStatus.Pause)
+        else
         {
             t = 0;
-            maxHealth -= damageTaken / 10f;
-            damageTaken = 0f;
-            maxStamina -= staminaTaken / 10f;
-            staminaTaken = 0f;
-            maxBlock -= blockTaken / 10f;
-            blockTaken = 0f;
+            ApplyTakenDamage();
         }
     }
+
+
 
     public void RegenStats()
     {
-        if(maxHealth + baseHeatlhRegen* t/60 <= maxMaxHealth)
+        maxHealth = CalculateNewValue(maxHealth, maxMaxHealth, baseHeatlhRegen);
+        health = maxHealth;
+
+        maxBlock = CalculateNewValue(maxBlock, maxMaxBlock, baseBlockRegen);
+        block = maxBlock;
+
+        maxStamina = CalculateNewValue(maxStamina, maxMaxStamina, baseStaminaRegen);
+        stamina = maxStamina;
+    }
+
+    public bool TakeDamage(Punch punch)
+    {
+        timer = cooldown;
+
+        if (punch.type == blockType)
         {
-            maxHealth += baseHeatlhRegen * t / 60;
-            health = maxHealth;
+            if (block >= punch.damage)
+            {
+                block -= punch.damage;
+                blockTaken += punch.damage;
+
+                return false;
+            }
+            else
+            {
+                if (health - punch.damage * EvaluatedStamina + block >= 0)
+                {
+                    health -= punch.damage * EvaluatedStamina - block;
+                    damageTaken += punch.damage * EvaluatedStamina - block;
+                }
+                else
+                {
+                    damageTaken += health - block;
+                    health = 0;
+                }
+
+                blockTaken += block;
+                block = 0;
+
+                return true;
+            }
         }
         else
         {
-            maxHealth = maxMaxHealth;
-            health = maxHealth;
+            if (health - punch.damage * EvaluatedStamina >= 0)
+            {
+                health -= punch.damage * EvaluatedStamina;
+                damageTaken += punch.damage * EvaluatedStamina;
+            }
+            else
+            {
+                damageTaken += health;
+                health = 0;
+            }
+
+            if (punch.type == PunchType.Lower)
+            {
+                if (stamina >= punch.enemyStaminaDamage)
+                {
+                    stamina -= punch.enemyStaminaDamage;
+                    staminaTaken += punch.enemyStaminaDamage;
+                }
+                else
+                {
+                    staminaTaken += stamina;
+                    stamina = 0;
+                }
+            }
+
+            return true;
         }
-        if (maxBlock + baseBlockRegen * t / 60 <= maxMaxBlock)
-        {
-            maxBlock += baseBlockRegen * t / 60;
-            block = maxBlock;
-        }
-        else
-        {
-            maxBlock = maxMaxBlock;
-            block = maxBlock;
-        }
-        if (maxStamina + baseStaminaRegen * t / 60 <= maxMaxStamina)
-        {
-            maxStamina += baseStaminaRegen * t / 60;
-            stamina = maxStamina;
-        }
-        else
-        {
-            maxStamina = maxMaxStamina;
-            stamina = maxStamina;
-        }
+    }
+
+    public void ResetStaminaTimer()
+    {
+        staminaTimer = cooldown;
+    }
+
+
+    private void ApplyTakenDamage()
+    {
+        maxHealth -= damageTaken / 10f;
+        damageTaken = 0f;
+
+        maxStamina -= staminaTaken / 10f;
+        staminaTaken = 0f;
+
+        maxBlock -= blockTaken / 10f;
+        blockTaken = 0f;
+    }
+
+    private float CalculateNewValue(float currentValue, float maxValue, float valueRegen)
+    {
+        return currentValue + valueRegen * t / 60 <= maxValue
+            ? currentValue + valueRegen * t / 60
+            : maxValue;
     }
 }
