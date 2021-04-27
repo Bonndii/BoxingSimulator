@@ -24,8 +24,7 @@ public class CharacterControl : MonoBehaviour
     private Animator animat;
 
     private Punch currentPunch;
-
-
+    
     private void Start()
     {
         anim = GetComponent<Animation>();
@@ -52,11 +51,9 @@ public class CharacterControl : MonoBehaviour
         Vector3 move = transform.right * (x) + transform.forward * (z);
         controller.Move(move * speed * Time.deltaTime);
 
-        
-
         foreach (Punch punch in punches)
         {
-            if (Input.GetKeyDown(punch.key) && currentPunch == null)
+            if (Input.GetKeyDown(punch.key) && !animat.GetBool("isPunching"))
             {
                 MakePunch(punch);
                 animat.SetBool("isPunching", true);
@@ -76,10 +73,11 @@ public class CharacterControl : MonoBehaviour
         if (enemy.TakeDamage(currentPunch))
             characteristics.points++;
 
-        anim[currentPunch.anim.name].speed = -animSpeed;
-        anim.Play(currentPunch.anim.name);
+        animat.SetFloat("animSpeedMulti", -animSpeed);
+        animat.Play($"Base Layer.{currentPunch.anim.name}");
 
         currentPunch = null;
+        animat.SetBool("isPunching", false);
     }
 
     public void AnimationEnd(string message)
