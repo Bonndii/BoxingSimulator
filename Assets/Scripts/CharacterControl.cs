@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animation))]
+[RequireComponent(typeof(Animator))]
 public class CharacterControl : MonoBehaviour
 {
     [Header("Settings")]
@@ -19,16 +19,12 @@ public class CharacterControl : MonoBehaviour
 
     private float animSpeed = 1f;
 
-    private Animation anim;
-
     private Animator animat;
 
     private Punch currentPunch;
     
     private void Start()
     {
-        anim = GetComponent<Animation>();
-
         animat = GetComponent<Animator>();
         //punches = new Punch[]
         //{
@@ -45,20 +41,32 @@ public class CharacterControl : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        if (x == 0 && z == 0) animat.SetBool("isWalking", false);
-        else animat.SetBool("isWalking", true);
+        if (x == 0 && z == 0)
+        {
+            animat.SetBool("isWalking", false);
+            animat.SetBool("isWalkingBackwards", false);
+        }
+        else if(z > 0) animat.SetBool("isWalking", true);
+        else animat.SetBool("isWalkingBackwards", true);
 
         Vector3 move = transform.right * (x) + transform.forward * (z);
         controller.Move(move * speed * Time.deltaTime);
 
         foreach (Punch punch in punches)
         {
-            if (Input.GetKeyDown(punch.key) && !animat.GetBool("isPunching"))
+            if (Input.GetKeyDown(punch.key) && currentPunch == null)
             {
-                MakePunch(punch);
                 animat.SetBool("isPunching", true);
+                MakePunch(punch);
             }
         }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            UpperBlock();
+            animat.SetBool("isBlocking", true);
+        }
+        else animat.SetBool("isBlocking", false);
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -105,9 +113,14 @@ public class CharacterControl : MonoBehaviour
             animSpeed = 0.5f;
         }
 
-        animat.Play($"Base Layer.{currentPunch.anim.name}");
         animat.SetFloat("animSpeedMulti", animSpeed);
+        animat.Play($"Base Layer.{currentPunch.anim.name}");
         
         characteristics.ResetStaminaTimer();
+    }
+
+    public void UpperBlock()
+    {
+        characteristics.blockType = PunchType.Upper;
     }
 }
