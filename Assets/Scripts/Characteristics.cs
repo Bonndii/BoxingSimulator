@@ -36,7 +36,7 @@ public class Characteristics : MonoBehaviour
     [HideInInspector] public float damageTaken;
     [HideInInspector] public float staminaTaken;
     [HideInInspector] public float blockTaken;
-    [HideInInspector] public PunchType blockType;
+    public PunchType blockType;
 
     public float EvaluatedStamina => staminaDmgMulti.Evaluate((maxStamina - stamina) * 0.01f);
 
@@ -45,7 +45,36 @@ public class Characteristics : MonoBehaviour
     private float cooldown = 3;
     private float t;
 
+    private Animator animat;
 
+    public float MaxHealth
+    {
+        get
+        {
+            return maxHealth;
+        }
+    }
+
+    public float MaxBlock
+    {
+        get
+        {
+            return maxBlock;
+        }
+    }
+
+    public float MaxStamina
+    {
+        get
+        {
+            return maxStamina;
+        }
+    }
+
+    private void Start()
+    {
+        animat = GetComponent<Animator>();
+    }
     private void Update()
     {
         if (isFighting)
@@ -94,6 +123,8 @@ public class Characteristics : MonoBehaviour
 
         if (punch.type == blockType)
         {
+            animat.Play($"Base Layer.Center Block");
+
             if (block >= punch.damage)
             {
                 block -= punch.damage;
@@ -116,25 +147,16 @@ public class Characteristics : MonoBehaviour
 
                 blockTaken += block;
                 block = 0;
-
+                
                 return true;
             }
         }
         else
         {
-            if (health - punch.damage * EvaluatedStamina >= 0)
-            {
-                health -= punch.damage * EvaluatedStamina;
-                damageTaken += punch.damage * EvaluatedStamina;
-            }
-            else
-            {
-                damageTaken += health;
-                health = 0;
-            }
-
             if (punch.type == PunchType.Lower)
             {
+                animat.Play($"Base Layer.Hit To Body");
+
                 if (stamina >= punch.enemyStaminaDamage)
                 {
                     stamina -= punch.enemyStaminaDamage;
@@ -146,6 +168,21 @@ public class Characteristics : MonoBehaviour
                     stamina = 0;
                 }
             }
+            else
+            {
+                animat.Play($"Base Layer.Head Hit");
+            }
+
+            if (health - punch.damage * EvaluatedStamina >= 0)
+            {
+                health -= punch.damage * EvaluatedStamina;
+                damageTaken += punch.damage * EvaluatedStamina;
+            }
+            else
+            {
+                damageTaken += health;
+                health = 0;
+            }            
 
             return true;
         }
